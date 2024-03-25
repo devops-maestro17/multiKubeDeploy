@@ -9,7 +9,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: apps/
-    repoURL: 'hhttps://github.com/devops-maestro17/clusterHub.git'
+    repoURL: 'https://github.com/devops-maestro17/clusterHub.git'
     targetRevision: HEAD
   sources: []
   project: default
