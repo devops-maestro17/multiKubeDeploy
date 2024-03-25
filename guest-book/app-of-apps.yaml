@@ -1,12 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: 'app-of-apps'
+  name: app-of-apps
 spec:
   destination:
-    namespace: 'argocd'
+    name: ''
+    namespace: argocd
+    server: 'https://kubernetes.default.svc'
   source:
-    path: 'apps/'
+    path: apps/
     repoURL: 'hhttps://github.com/devops-maestro17/clusterHub.git'
     targetRevision: HEAD
-  project: 'default'
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
