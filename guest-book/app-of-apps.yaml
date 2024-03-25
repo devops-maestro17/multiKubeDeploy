@@ -8,7 +8,7 @@ spec:
     namespace: argocd
     server: 'https://kubernetes.default.svc'
   source:
-    path: apps/
+    path: guest-book/apps/
     repoURL: 'https://github.com/devops-maestro17/clusterHub.git'
     targetRevision: HEAD
   sources: []
