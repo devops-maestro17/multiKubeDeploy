@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook-qa
+spec:
+  destination:
+    namespace: qa
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: guest-book
+    repoURL: 'https://github.com/devops-maestro17/clusterHub.git'
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values-qa.yaml
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

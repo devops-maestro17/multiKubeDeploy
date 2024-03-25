@@ -9,7 +9,7 @@ image:
   tag: "0.2"
 
 service:
-  type: LoadBalancer
+  type: Nod
   port: 80
   targetPort: 80
 
