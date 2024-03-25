@@ -1,0 +1,32 @@
+replicaCount: 1
+
+app:
+  env: qa
+
+image:
+  repository: gcr.io/heptio-images/ks-guestbook-demo
+  pullPolicy: IfNotPresent
+  tag: "0.2"
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+
+resources:
+  limits:
+    cpu: 1
+    memory: 500Mi
+  requests:
+    cpu: 2
+    memory: 1Gi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+hpa:
+  enabled: false
