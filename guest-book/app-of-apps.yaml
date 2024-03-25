@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 'app-of-apps'
+spec:
+  destination:
+    namespace: 'argocd'
+  source:
+    path: 'apps/'
+    repoURL: 'hhttps://github.com/devops-maestro17/clusterHub.git'
+    targetRevision: HEAD
+  project: 'default'
