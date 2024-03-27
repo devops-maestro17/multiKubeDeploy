@@ -8,10 +8,8 @@ spec:
   generators:
   - list:
      elements:
-     - cluster: guestbook-dev
+     - cluster: dev
        url: https://21B5A6F4C0896A42FE1E41BD9A27376B.yl4.ap-south-1.eks.amazonaws.com
-       values:
-        namespace: dev
   template:
     metadata:
       name: guestbook
@@ -22,10 +20,10 @@ spec:
         targetRevision: main
         helm:
           valueFiles:
-          - 'values-{{values.namespace}}.yaml'
+          - 'values-{{cluster}}.yaml'
       destination:
         server: '{{url}}'
-        namespace: '{{values.namespace}}'
+        namespace: '{{cluster}}'
       syncPolicy:
        automated:
         prune: true
