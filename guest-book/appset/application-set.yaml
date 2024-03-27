@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook-app
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+     elements:
+     - cluster: guestbook-dev
+       url: https://21B5A6F4C0896A42FE1E41BD9A27376B.yl4.ap-south-1.eks.amazonaws.com
+       values:
+        namespace: dev
+  template:
+    metadata:
+      name: guestbook
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/devops-maestro17/clusterHub.git
+        targetRevision: main
+        helm:
+          valueFiles:
+          - 'values-{{values.namespace}}.yaml'
+      destination:
+        server: '{{url}}'
+        namespace: '{{values.namespace}}'
+      syncPolicy:
+       automated:
+        prune: true
+        selfHeal: true
+       syncOptions:
+         - CreateNamespace=true	
