@@ -3,6 +3,8 @@ kind: ApplicationSet
 metadata:
   name: guestbook-app
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
   - list:
      elements:
@@ -18,7 +20,7 @@ spec:
         targetRevision: main
         helm:
           valueFiles:
-          - 'values-{{cluster}}.yaml'
+          - values-dev.yaml
       destination:
         server: '{{url}}'
         namespace: '{{cluster}}'
