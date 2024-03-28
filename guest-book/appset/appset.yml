@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: dev
+        url: https://35.223.161.236
+  template:
+    metadata:
+      name: '{{cluster}}-guestbook'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/devops-maestro17/clusterHub.git
+        targetRevision: main
+        helm:
+          valueFiles:
+          - values-dev.yaml
+      destination:
+        server: '{{url}}'
+        namespace: guestbook
+      syncPolicy:
+       automated:
+        prune: true
+        selfHeal: true
+       syncOptions:
+         - CreateNamespace=true
