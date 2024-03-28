@@ -9,7 +9,7 @@ spec:
   - list:
      elements:
      - cluster: dev
-       url: https://21B5A6F4C0896A42FE1E41BD9A27376B.yl4.ap-south-1.eks.amazonaws.com
+       url: https://35.223.161.236
   template:
     metadata:
       name: guestbook
