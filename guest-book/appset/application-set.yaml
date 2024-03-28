@@ -22,8 +22,8 @@ spec:
           valueFiles:
           - values-dev.yaml
       destination:
-        server: {{url}}
-        namespace: {{cluster}}
+        server: '{{url}}'
+        namespace: '{{cluster}}'
       syncPolicy:
        automated:
         prune: true
