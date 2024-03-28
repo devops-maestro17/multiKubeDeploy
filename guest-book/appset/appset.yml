@@ -14,6 +14,7 @@ spec:
     spec:
       project: default
       source:
+        path: guest-book
         repoURL: https://github.com/devops-maestro17/clusterHub.git
         targetRevision: main
         helm:
