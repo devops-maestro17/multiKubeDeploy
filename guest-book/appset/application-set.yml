@@ -7,7 +7,9 @@ spec:
   - list:
       elements:
       - cluster: dev
-        url: https://35.223.161.236
+        url: https://34.48.20.151
+      - cluster: prod
+        url: https://35.188.199.89
   template:
     metadata:
       name: '{{cluster}}-guestbook'
@@ -19,10 +21,10 @@ spec:
         targetRevision: main
         helm:
           valueFiles:
-          - values-dev.yaml
+          - 'values-{{cluster}}.yaml'
       destination:
         server: '{{url}}'
-        namespace: guestbook
+        namespace: '{{cluster}}'
       syncPolicy:
        automated:
         prune: true
