@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: app
+  name: app-set
 spec:
   generators:
   - list:
@@ -23,7 +23,7 @@ spec:
         targetRevision: main
         helm:
           valueFiles:
-          - values-dev.yaml
+          - 'values-{{cluster}}.yaml'
       destination:
         server: '{{url}}'
         namespace: '{{cluster}}'
