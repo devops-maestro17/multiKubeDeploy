@@ -168,6 +168,7 @@ argocd cluster add <paste the prod cluster context>
 <img width="960" alt="argo-cluster-add" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/14556a66-b251-49e7-872b-8d31d558c1ed">
 
 
+
 In order to verify whether the clusters are added, navigate to ArgoCD Settings > Clusters
 
 <img width="960" alt="image" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/de686dae-3163-4d6d-82f5-9ef4d53602e9">
