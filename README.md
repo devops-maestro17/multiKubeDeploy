@@ -1,6 +1,7 @@
 # Multi-Cluster Application Deployment with Argo CD and ApplicationSets
 
-![alt text](diagram-export-3-31-2024-11_41_34-AM.png)
+![diagram-export-3-31-2024-11_41_34-AM](https://github.com/devops-maestro17/clusterHub/assets/148553140/ef28d3cb-1078-4d82-ade4-1d5e6fc82bcd)
+
 
 ### This project demonstrates the deployment of an application across multiple Google Kubernetes Engine (GKE) clusters using Argo CD and its ApplicationSets feature.
 
@@ -12,6 +13,8 @@ The application is a guestbook application which is packaged using Helm charts a
 ## Project Structure
 
 The project is structured in the following way to manage multiple environments using a single Helm chart. The values for respective environment are present in the `values-dev.yaml`, `values-qa.yaml` and `values-prod.yaml`. The `terraform` folder contains the code to create the infrastructure in Google Cloud Platform (GCP). There are separate modules created for the custom VPC and the GKE to ensure that the configuration is flexible. The application set file is present under `helm-charts/application-set` folder.
+
+```bash
 
 ├── helm-charts
 │   ├── Chart.yaml
@@ -28,6 +31,7 @@ The project is structured in the following way to manage multiple environments u
 │   ├── values-prod.yaml
 │   └── values-qa.yaml
 └── terraform
+    ├── main.tf
     ├── modules
     │   ├── gke
     │   │   ├── main.tf
@@ -36,8 +40,9 @@ The project is structured in the following way to manage multiple environments u
     │       ├── main.tf
     │       ├── outputs.tf
     │       └── variables.tf
-    ├── main.tf
     ├── terraform.tfvars
     └── variables.tf
+
+```
 
 
