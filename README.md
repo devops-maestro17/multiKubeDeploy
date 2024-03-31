@@ -197,7 +197,7 @@ spec:
       project: default
       source:
         path: helm-charts
-        repoURL: https://github.com/devops-maestro17/clusterHub.git
+        repoURL: https://github.com/devops-maestro17/multiKubeDeploy.git
         targetRevision: main
         helm:
           valueFiles:

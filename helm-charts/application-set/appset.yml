@@ -7,11 +7,11 @@ spec:
   - list:
       elements:
       - cluster: dev
-        url: https://35.184.89.90
+        url: dev-cluster-url
       - cluster: qa
-        url: https://34.132.68.106
+        url: qa-cluster-url
       - cluster: prod
-        url: https://35.239.231.130
+        url: prod-cluster-url
   template:
     metadata:
       name: '{{cluster}}-app'
@@ -19,7 +19,7 @@ spec:
       project: default
       source:
         path: helm-charts
-        repoURL: https://github.com/devops-maestro17/clusterHub.git
+        repoURL: https://github.com/devops-maestro17/multiKubeDeploy.git
         targetRevision: main
         helm:
           valueFiles:
