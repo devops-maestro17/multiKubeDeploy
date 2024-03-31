@@ -1,4 +1,4 @@
-# Multi-Cluster Application Deployment with Argo CD and ApplicationSets
+# MultiKubeDeploy: Streamlining Multi-Cluster Kubernetes Deployments using ArgoCD ApplicationSets and Terraform
 
 ![diagram-export-3-31-2024-11_41_34-AM](https://github.com/devops-maestro17/clusterHub/assets/148553140/ef28d3cb-1078-4d82-ade4-1d5e6fc82bcd)
 
