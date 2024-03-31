@@ -85,6 +85,9 @@ terraform apply
 # Enter "yes" after reviewing the plan
 ```
 
+<img width="960" alt="terraform-apply" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/a6105365-60f4-44af-8a9e-778269645957">
+
+
 ### Connect to the Hub cluster and set up ArgoCD
 
 Once the clusters are provisioned, connect to the hub cluster using the following command:
@@ -106,6 +109,8 @@ sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 rm argocd-linux-amd64
 ```
 
+<img width="960" alt="argo-installation" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/bcbdd86c-7a86-4f3d-a78c-9bbe5016bc19">
+
 Verify the installation by running `kubectl get all -n argocd`
 Once the Services are up and running, use the below command to expose the **argocd-server** in order to access the ArgoCD UI
 
@@ -113,7 +118,12 @@ Once the Services are up and running, use the below command to expose the **argo
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
+<img width="934" alt="argo-pods" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/928cc7af-3914-4483-8740-d2038b1bd0f6">
+
+
 Use `kubectl get svc -n argocd` command to fetch the LoadBalancer IP address which is present under the *External IP* section
+
+<img width="960" alt="load-balan-ip" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/0c0873db-37fb-438f-9a6b-49a30be48dcc">
 
 ## Access the ArgoCD UI
 Hit the LoadBalancer IP in a new tab to access the ArgoCD dashboard. To get the password follow the below steps:
@@ -136,6 +146,8 @@ argocd login <external ip address of the argocd-server>
 # Provide username: admin and the password to login
 ```
 
+<img width="960" alt="argo-login" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/d43bcad2-3a6b-4bd9-91d6-13e64291e730">
+
 In order to connect the spoke clusters (*dev, qa* and *prod* clusters) to the hub cluster, run the following commands:
 
 ```bash
@@ -153,10 +165,75 @@ argocd cluster add <paste the qa cluster context>
 argocd cluster add <paste the prod cluster context>
 ```
 
+<img width="960" alt="argo-cluster-add" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/14556a66-b251-49e7-872b-8d31d558c1ed">
+
+
 In order to verify whether the clusters are added, navigate to ArgoCD Settings > Clusters
 
 <img width="960" alt="image" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/de686dae-3163-4d6d-82f5-9ef4d53602e9">
 
-## COnfigure the URLs in the ApplicationSet file
+## Configure the URLs in the ApplicationSet file
+To host the guestbook application to multiple clusters, edit the cluster URLs present inside the `application-set.yaml` file present inside `helm-charts/application-set` folder.
+
+```bash
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: application-set
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: dev
+        url: dev-cluster-url
+      - cluster: qa
+        url: qa-cluster-url
+      - cluster: prod
+        url: prod-cluster-url
+  template:
+    metadata:
+      name: '{{cluster}}-app'
+    spec:
+      project: default
+      source:
+        path: helm-charts
+        repoURL: https://github.com/devops-maestro17/clusterHub.git
+        targetRevision: main
+        helm:
+          valueFiles:
+          - 'values-{{cluster}}.yaml'
+      destination:
+        server: '{{url}}'
+        namespace: '{{cluster}}'
+      syncPolicy:
+       automated:
+        prune: true
+        selfHeal: true
+       syncOptions:
+         - CreateNamespace=true
+```
+
+To create an ArgoCD application, click on "New App" and then provide the following details:
+Application Name: root-app > Project Name: default > Sync Policy: Automatic > Select the Heal option > Add the repository URL and the Path where the `application-set.yaml` file is present > Cluster URL: https://kubernetes.default.svc > Namespace: argocd > Click on Create
+
+It will create 4 applications, the root-app deploys the application-set which then creates the *dev*, *qa* and *prod* versions of the guestbook-application into their respective clusters
+
+<img width="960" alt="image" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/27ba1600-92c6-46d0-a1c5-584d54628563">
+
+<img width="960" alt="image" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/102d2bf5-72b9-48c3-a9a6-45b15dc77b2e">
 
 
+## Access the application
+In order to access the application, switch to the context of any cluster:
+
+```bash
+kubectl config get-contexts
+kubectl config use-context <cluster name>
+
+# Accessing the dev cluster for example
+kubectl get svc -n dev
+
+# Copy the Load Balancer External IP and hit it in a new tab
+```
+
+<img width="960" alt="image" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/77935d66-60a7-4cc3-a11d-54ea2849f3ec">
