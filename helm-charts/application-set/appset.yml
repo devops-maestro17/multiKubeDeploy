@@ -7,11 +7,11 @@ spec:
   - list:
       elements:
       - cluster: dev
-        url: https://34.173.21.41
+        url: https://35.184.89.90
       - cluster: qa
-        url: https://104.197.109.251
+        url: https://34.132.68.106
       - cluster: prod
-        url: https://34.172.16.59
+        url: https://35.239.231.130
   template:
     metadata:
       name: '{{cluster}}-app'
