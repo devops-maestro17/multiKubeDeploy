@@ -116,4 +116,7 @@ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}
 Use `kubectl get svc -n argocd` command to fetch the LoadBalancer IP address which is present under the *External IP* section
 
 ## Access the ArgoCD UI and CLI
+Hit the LoadBalancer IP in a new tab to access the ArgoCD dashboard. To get the password follow the below steps:
 
+```bash
+kubectl edit secret 
