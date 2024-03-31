@@ -237,3 +237,10 @@ kubectl get svc -n dev
 ```
 
 <img width="960" alt="image" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/77935d66-60a7-4cc3-a11d-54ea2849f3ec">
+
+## Destroy the infrastructure created in GCP
+To destroy the infrastructure:
+
+```bash
+terraform destroy
+```
