@@ -115,8 +115,48 @@ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}
 
 Use `kubectl get svc -n argocd` command to fetch the LoadBalancer IP address which is present under the *External IP* section
 
-## Access the ArgoCD UI and CLI
+## Access the ArgoCD UI
 Hit the LoadBalancer IP in a new tab to access the ArgoCD dashboard. To get the password follow the below steps:
 
 ```bash
-kubectl edit secret 
+kubectl edit secret argocd-initial-admin-secret -n argocd
+```
+Fetch the value from `data.password` and decode it using below command:
+
+```bash
+echo <password> | base64 --decode
+```
+Use the decoded value as the password and login to the ArgoCD dashboad using *Username: admin*
+
+## Login to the ArgoCD CLI and add the kubernetes clusters
+Run the following command to login to the ArgoCD CLI:
+
+```bash
+argocd login <external ip address of the argocd-server>
+# Provide username: admin and the password to login
+```
+
+In order to connect the spoke clusters (*dev, qa* and *prod* clusters) to the hub cluster, run the following commands:
+
+```bash
+# Connect the clusters to the Cloud shell
+gcloud container clusters get-credentials <dev cluster name> --zone <zone of dev cluster> --project <project id>
+gcloud container clusters get-credentials <qa cluster name> --zone <zone of qa cluster> --project <project id>
+gcloud container clusters get-credentials <prod cluster name> --zone <zone of prod cluster> --project <project id>
+
+# Get the context of the clusters
+kubectl config get-contexts
+
+# Add the clusters to ArgoCD
+argocd cluster add <paste the dev cluster context>
+argocd cluster add <paste the qa cluster context>
+argocd cluster add <paste the prod cluster context>
+```
+
+In order to verify whether the clusters are added, navigate to ArgoCD Settings > Clusters
+
+<img width="960" alt="image" src="https://github.com/devops-maestro17/clusterHub/assets/148553140/de686dae-3163-4d6d-82f5-9ef4d53602e9">
+
+## COnfigure the URLs in the ApplicationSet file
+
+
